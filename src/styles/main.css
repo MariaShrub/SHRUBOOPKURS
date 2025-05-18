@@ -1,0 +1,499 @@
+/* Общие стили */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1, h2, h3 {
+  color: #2c3e50;
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+/* ParticipantList ввод участников*/
+.participant-list-container {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.participant-count {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  font-weight: 500;
+  color: #343a40;
+}
+
+.count-warning {
+  color: #dc3545;
+  font-size: 0.9rem;
+}
+
+.table-header {
+  display: flex;
+  background-color: #f8f9fa;
+  font-weight: 600;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.header-cell {
+  padding: 12px 15px;
+  flex: 1;
+  text-align: left;
+}
+
+.header-cell:first-child {
+  flex: 0.5;
+  max-width: 50px;
+}
+
+.table-row {
+  display: flex;
+  border-bottom: 1px solid #dee2e6;
+  transition: background-color 0.2s;
+}
+
+.table-cell {
+  padding: 12px 15px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.table-cell:first-child {
+  flex: 0.5;
+  max-width: 50px;
+  color: #6c757d;
+}
+
+.name-cell {
+  font-weight: 500;
+}
+
+.remove-btn:hover {
+  background-color: #c82333;
+}
+
+.action-cell {
+  justify-content: flex-end;
+}
+
+/* StandingsTable styles турнирная таблица  */
+.standings-table-container {
+  overflow-x: auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.standings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.standings-table th {
+  background-color: #f8f9fa;
+  padding: 12px 15px;
+  text-align: center;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.standings-table td {
+  padding: 10px 15px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+/* Cell styles */
+.position-badge {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  color: #495057;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Highlighting top positions */
+.top-1 {
+  background-color: #fff9e6;
+}
+
+.top-1 .position-badge {
+  background-color: #ffd43b;
+  color: #212529;
+}
+
+.top-2 {
+  background-color: #f0f0f0;
+}
+
+.top-2 .position-badge {
+  background-color: #adb5bd;
+  color: white;
+}
+
+.top-3 {
+  background-color: #fff0e6;
+}
+
+.top-3 .position-badge {
+  background-color: #fd7e14;
+  color: white;
+}
+
+/* TournamentSetupForm styles настройка турнира */
+.tournament-setup-form {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #343a40;
+}
+
+.form-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #fff;
+  transition: border-color 0.15s;
+}
+
+.form-hint {
+  margin-top: 5px;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.form-description {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  color: #495057;
+  font-style: italic;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.submit-button:hover {
+  background-color: #218838;
+}
+
+/* ParticipantsPage styles */
+.participants-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.participant-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 15px;
+  margin-bottom: 30px;
+  background-color: #71dac873;
+  padding: 20px;
+  border-radius: 8px;
+}
+.form-input {
+  padding: 10px 5px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.setup-button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.start-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.start-button:hover {
+  background-color: #218838;
+}
+
+/* TournamentPage styles */
+.tournament-page {
+  padding: 20px;
+  max-width: 11400px;
+  margin: 0 auto;
+}
+
+.tournament-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.tournament-info span {
+  background-color: #f8f9fa;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.next-round-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: #28a745;
+  color: white;
+ 
+}
+
+.final-stage {
+  text-align: center;
+}
+
+.winner-announcement {
+  background-color: #eba49f;
+  border-radius: 8px;
+  border: 1px solid #ecbf358f;
+  color: black;
+}
+
+.winner-announcement p {
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+/* TournamentSetupPage styles */
+.setup-page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.setup-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.setup-description {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+/* текущий раунд, посвечивать играков */
+@media (max-width: 768px) {
+  .setup-page-container {
+    padding: 15px;
+  }
+
+
+  .setup-description {
+    font-size: 1rem;
+  }
+}
+.current-round {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.round-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.round-header h3 {
+  margin: 0;
+  color: #212529;
+}
+
+.tiebreaker-info {
+  color: #6c757d;
+  font-size: 0.9em;
+}
+
+.matches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.match-card {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-left: 4px solid #6c757d;
+}
+
+.match-card.completed {
+  border-left-color: #28a745;
+  background-color: #f8f9fa;
+}
+
+.match-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.player {
+  flex: 1;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.player1 {
+  background-color: #e7f5ff;
+  border: 1px solid #d0ebff;
+}
+
+.player2 {
+  background-color: #fff3bf;
+  border: 1px solid #ffec99;
+}
+
+.vs {
+  font-weight: bold;
+  padding: 0 10px;
+  color: #495057;
+  font-size: 1.1em;
+}
+
+.match-stats {
+  display: flex;
+  gap: 10px;
+  font-size: 0.9em;
+  color: #495057;
+}
+
+.match-stats span {
+  padding: 2px 5px;
+  background: #e9ecef;
+  border-radius: 3px;
+}
+
+.player-name {
+  font-weight: bold;
+  color: #212529;
+}
+
+/* MatchResultInput Styles */
+.match-result-input {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.input-title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.game-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #495057;
+}
+
+.game-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.game-option:hover {
+  background: #f1f3f5;
+  border-color: #adb5bd;
+}

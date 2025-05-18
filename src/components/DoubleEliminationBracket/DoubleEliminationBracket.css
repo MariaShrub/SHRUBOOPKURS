@@ -1,0 +1,57 @@
+.bracket-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: sans-serif;
+}
+
+.bracket-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.bracket-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.bracket {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: stretch;
+}
+
+.round-column {
+    display: flex;
+    flex-direction: column;
+    /*gap: 1.5rem;*/
+    gap: 20px;
+    min-width: 220px;
+    justify-content: space-between;
+}
+
+
+.match-info {
+    height: 60px;
+}
+
+.player-card {
+    display: flex;
+    border: 1px solid black;
+}
+
+.player-card > * {
+    padding: 5px;
+}
+
+.player-title {
+    flex-grow: 1;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+
