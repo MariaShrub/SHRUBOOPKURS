@@ -31,10 +31,6 @@ const TournamentSetupPage = () => {
     navigate('/participants');
   };
 
-  const handleCancel = () => {
-    navigate('/');
-  };
-
   return (
     <div className="setup-page-container">
       <div className="setup-header">
@@ -50,7 +46,6 @@ const TournamentSetupPage = () => {
           initialBracketType={savedConfig?.bracketType || 'rigid'}
           initialTiebreakerType={savedConfig?.tiebreakerType || 'rating'}
           onSubmit={handleSubmit}
-          onCancel={handleCancel}
         />
       </div>
 

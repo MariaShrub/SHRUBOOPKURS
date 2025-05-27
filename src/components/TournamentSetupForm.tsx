@@ -13,7 +13,6 @@ interface TournamentSetupFormProps {
     tiebreakerType: TiebreakerType;
     matchesInRound: number; 
   }) => void;
-  onCancel?: () => void;
 }
 
 const TournamentSetupForm = ({
@@ -22,7 +21,6 @@ const TournamentSetupForm = ({
                                initialTiebreakerType = 'rating',
                                initialMatchesInRound = 1,
                                onSubmit,
-                               onCancel
                              }: TournamentSetupFormProps) => {
   const [participantsCount, setParticipantsCount] = useState<number>(initialParticipantsCount);
   const [bracketType, setBracketType] = useState<BracketType>(initialBracketType);
@@ -158,16 +156,7 @@ const TournamentSetupForm = ({
 
         {/* Кнопки действия */}
         <div className="form-actions">
-          {onCancel && (
-              <button
-                  type="button"
-                  onClick={onCancel}
-                  className="cancel-button"
-                  disabled={isSubmitting}
-              >
-                Отмена
-              </button>
-          )}
+          
           <button
               type="submit"
               className="submit-button"
