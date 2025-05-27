@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Participant } from '../types';
 import ParticipantList from '../components/ParticipantList';
-import TournamentSetupForm from '../components/TournamentSetupForm';
 import React from 'react';
 
 const ParticipantsPage = () => {
@@ -11,7 +10,7 @@ const ParticipantsPage = () => {
   // Состояния для участников, минимального количества участников и настройки
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [minParticipants, setMinParticipants] = useState(8);  // Минимальное количество участников для турнира
-  const [isSettingUp, setIsSettingUp] = useState(false);  // Флаг для отображения формы настройки турнира
+ 
   const [newParticipant, setNewParticipant] = useState<Omit<Participant, 'id'>>({
     firstName: '',
     lastName: '',
@@ -62,30 +61,6 @@ const ParticipantsPage = () => {
     localStorage.setItem('tournamentParticipants', JSON.stringify(allParticipants));  // Сохраняем в localStorage
     navigate('/tournament');  // Перенаправляем на страницу турнира
   };
-
-  // Обработка завершения настройки турнира
-  const handleSetupComplete = (config: {
-    participantsCount: number;
-    bracketType: string;
-    tiebreakerType: string;
-  }) => {
-    setMinParticipants(config.participantsCount);  // Обновляем минимальное количество участников
-    localStorage.setItem('tournamentConfig', JSON.stringify(config));  // Сохраняем настройки в localStorage
-    setIsSettingUp(false);  // Закрываем форму настройки
-  };
-
-  // Если настройки турнира в процессе, отображаем форму для их изменения
-  if (isSettingUp) {
-    return (
-        <div className="participants-container">
-          <h1>Настройка турнира</h1>
-          <TournamentSetupForm
-              onSubmit={handleSetupComplete}
-              onCancel={() => navigate('/')}  // Отменить настройку и вернуться на главную
-          />
-        </div>
-    );
-  }
 
   return (
       <div className="participants-container">
@@ -144,7 +119,7 @@ const ParticipantsPage = () => {
         {/* Кнопки для изменения настроек и начала турнира */}
         <div className="action-buttons">
           <button
-              onClick={() => setIsSettingUp(true)}
+              onClick={() => navigate('/')}  // Переход на главную страницу с настройками
               className="setup-button"
           >
             Изменить настройки

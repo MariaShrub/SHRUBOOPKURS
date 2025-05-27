@@ -10,6 +10,7 @@ const TournamentSetupPage = () => {
     participantsCount: number;
     bracketType: BracketType;
     tiebreakerType: TiebreakerType;
+    matchesInRound: number;
   } | null>(null);
 
   // Загрузка сохраненных настроек
@@ -24,6 +25,7 @@ const TournamentSetupPage = () => {
     participantsCount: number;
     bracketType: BracketType;
     tiebreakerType: TiebreakerType;
+    matchesInRound: number;
   }) => {
     localStorage.setItem('tournamentConfig', JSON.stringify(config));
     navigate('/participants');
