@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback, useMemo} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import CurrentRound from '../components/CurrentRound';
 import {Participant, Match, Standing, BracketType, TiebreakerType} from '../types';
 import {DoubleEliminationBracket} from "../components/DoubleEliminationBracket/DoubleEliminationBracket";
@@ -7,7 +7,6 @@ import {MatchResult} from "../components/MatchResultInput";
 import React from 'react';
 
 const TournamentPage = () => {
-    const navigate = useNavigate();
     const [participants, setParticipants] = useState<Participant[]>([]); // Состояние для участников турнира
     const [currentRound, setCurrentRound] = useState(1); // Текущий раунд турнира
     const [upperBracket, setUpperBracket] = useState<Match[]>([]); // Состояние для верхней сетки
@@ -29,7 +28,7 @@ const TournamentPage = () => {
             const savedConfig = localStorage.getItem('tournamentConfig'); // Получаем сохраненные настройки
 
             if (!savedParticipants) {
-                navigate('/participants'); // Если участников нет, перенаправляем на страницу с участниками
+                window.location.href = '/participants'; // Если участников нет, перенаправляем на страницу с участниками
                 return;
             }
 
