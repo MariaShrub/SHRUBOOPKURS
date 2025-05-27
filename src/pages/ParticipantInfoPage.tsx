@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Match, Participant, Standing } from "../types.js";
+import { Match, Participant, Standing } from "../types";
 import React from 'react';
 
 export const ParticipantInfoPage = () => {

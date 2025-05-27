@@ -1,4 +1,4 @@
-import {MatchResult} from "./components/MatchResultInput.js";
+import {MatchResult} from "./components/MatchResultInput";
 
 export type Participant = {
   id: string;

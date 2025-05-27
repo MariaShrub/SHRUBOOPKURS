@@ -1,6 +1,6 @@
 import React from 'react';
 import './DoubleEliminationBracket.css';
-import { Match, Participant } from "../../types.js";
+import { Match, Participant } from "../../types";
 import { Link } from "react-router-dom";
 
 type Props = {

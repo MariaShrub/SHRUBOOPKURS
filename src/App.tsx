@@ -2,8 +2,8 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import TournamentSetupPage from './pages/TournamentSetupPage'
 import ParticipantsPage from './pages/ParticipantsPage'
 import TournamentPage from './pages/TournamentPage'
-import {TournamentInfoPage} from "./pages/TournamentInfoPage.js";
-import {ParticipantInfoPage} from "./pages/ParticipantInfoPage.js";
+import {TournamentInfoPage} from "./pages/TournamentInfoPage";
+import {ParticipantInfoPage} from "./pages/ParticipantInfoPage";
 import React from 'react';
 
 /**

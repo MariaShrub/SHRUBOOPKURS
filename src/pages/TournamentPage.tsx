@@ -2,8 +2,8 @@ import {useState, useEffect, useCallback, useMemo} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import CurrentRound from '../components/CurrentRound';
 import {Participant, Match, Standing, BracketType, TiebreakerType} from '../types';
-import {DoubleEliminationBracket} from "../components/DoubleEliminationBracket/DoubleEliminationBracket.js";
-import {MatchResult} from "../components/MatchResultInput.js";
+import {DoubleEliminationBracket} from "../components/DoubleEliminationBracket/DoubleEliminationBracket";
+import {MatchResult} from "../components/MatchResultInput";
 import React from 'react';
 
 const TournamentPage = () => {
