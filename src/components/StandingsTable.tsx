@@ -1,5 +1,12 @@
 import { Standing, Participant } from '../types';
 import React from 'react';
+import {
+  useReactTable,
+  getCoreRowModel,
+  ColumnDef,
+  flexRender,
+  CellContext,
+} from '@tanstack/react-table';
 
 interface StandingsTableProps {
   standings: Standing[];
@@ -8,23 +15,116 @@ interface StandingsTableProps {
   showTiebreakers?: boolean;
 }
 
+interface EnrichedStanding extends Standing {
+  participant?: Participant;
+  fullName: string;
+  isEmpty: boolean;
+}
+
 const StandingsTable = ({
-                          standings,
-                          participants,
-                          highlightTop = 3,
-                          showTiebreakers = true
-                        }: StandingsTableProps) => {
-  // Добавляем в каждую запись таблицы ссылку на участника по его ID
-  const enrichedStandings = standings.map(standing => {
+  standings,
+  participants,
+  highlightTop = 3,
+  showTiebreakers = true
+}: StandingsTableProps) => {
+  // Обогащаем данные участников для таблицы
+  const enrichedStandings: EnrichedStanding[] = standings.map(standing => {
     const participant = participants.find(p => p.id === standing.participantId);
     return {
       ...standing,
-      participant
+      participant,
+      fullName: participant ? `${participant.firstName} ${participant.lastName}` : '',
+      isEmpty: participant?.isEmpty || false
     };
+  }).filter(standing => standing.participant);
+
+  // Явно типизированные колонки
+  const columns: ColumnDef<EnrichedStanding>[] = [
+    {
+      accessorKey: 'position',
+      header: '#',
+      cell: (info: CellContext<EnrichedStanding, number>) => (
+        <span className="position-badge">
+          {info.getValue()}
+        </span>
+      ),
+      size: 50,
+    },
+    {
+      accessorKey: 'fullName',
+      header: 'Участник',
+      cell: (info: CellContext<EnrichedStanding, string>) => (
+        <>
+          {info.getValue()}
+          {info.row.original.isEmpty && (
+            <span className="empty-badge">[Пустой]</span>
+          )}
+        </>
+      ),
+      size: 200,
+    },
+    {
+      accessorKey: 'points',
+      header: 'Очки',
+      cell: (info: CellContext<EnrichedStanding, number>) => (
+        info.getValue().toFixed(1)
+      ),
+      size: 80,
+    },
+    {
+      accessorKey: 'wins',
+      header: 'Победы',
+      size: 80,
+    },
+    {
+      accessorKey: 'draws',
+      header: 'Ничьи',
+      size: 80,
+    },
+    {
+      accessorKey: 'losses',
+      header: 'Поражения',
+      size: 80,
+    },
+    ...(showTiebreakers ? [
+      {
+        accessorKey: 'participant.rating',
+        header: 'Рейтинг',
+        cell: (info: CellContext<EnrichedStanding, number | undefined>) => (
+          info.getValue() || '-'
+        ),
+        size: 80,
+      },
+      {
+        accessorKey: 'buchholz',
+        header: 'Бухгольц',
+        cell: (info: CellContext<EnrichedStanding, number | undefined>) => (
+          info.row.original.position <= highlightTop 
+            ? info.getValue()?.toFixed(1) 
+            : '-'
+        ),
+        size: 80,
+      },
+      {
+        accessorKey: 'berger',
+        header: 'Бергер',
+        cell: (info: CellContext<EnrichedStanding, number | undefined>) => (
+          info.row.original.position <= highlightTop 
+            ? info.getValue()?.toFixed(1) 
+            : '-'
+        ),
+        size: 80,
+      },
+    ] : []),
+  ];
+
+  const table = useReactTable({
+    data: enrichedStandings,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
   });
 
-  // Возвращает класс для строк лидеров (например, top-1, top-2)
-  const getPositionClass = (position: number) => {
+  const getRowClass = (position: number) => {
     if (position <= highlightTop) {
       return `top-${position}`;
     }
@@ -32,66 +132,42 @@ const StandingsTable = ({
   };
 
   return (
-      <div className="standings-table-container">
-        <table className="standings-table">
-          <thead>
-          <tr>
-            <th className="position-col">#</th>
-            <th className="name-col">Участник</th>
-            <th className="points-col">Очки</th>
-            <th className="stats-col">Победы</th>
-            <th className="stats-col">Ничьи</th>
-            <th className="stats-col">Поражения</th>
-            {showTiebreakers && (
-                <>
-                  <th className="rating-col">Рейтинг</th>
-                  <th className="buchholz-col">Бухгольц</th>
-                  <th className="buchholz-col">Бергер</th>
-                </>
-            )}
-          </tr>
-          </thead>
-          <tbody>
-          {enrichedStandings.map((standing) => {
-            // Если участник не найден (возможно, удалён) — не рендерим строку
-            if (!standing.participant) return null;
-
-            return (
-                <tr
-                    key={standing.participantId}
-                    className={getPositionClass(standing.position)}
+    <div className="standings-table-container">
+      <table className="standings-table">
+        <thead>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th 
+                  key={header.id} 
+                  className={`${header.id}-col`}
+                  style={{ width: header.getSize() }}
                 >
-                  <td className="position-cell">
-                    <span className="position-badge">{standing.position}</span>
-                  </td>
-                  <td className="name-cell">
-                    {standing.participant.firstName} {standing.participant.lastName}
-                    {standing.participant.isEmpty && (
-                        <span className="empty-badge">[Пустой]</span>
-                    )}
-                  </td>
-                  <td className="points-cell">{standing.points.toFixed(1)}</td>
-                  <td className="stats-cell">{standing.wins}</td>
-                  <td className="stats-cell">{standing.draws}</td>
-                  <td className="stats-cell">{standing.losses}</td>
-                  {showTiebreakers && (
-                      <>
-                        <td className="rating-cell">{standing.participant.rating || '-'}</td>
-                        {/* Показываем коэффициенты только для лидеров */}
-                        <td className="buchholz-cell">
-                          {standing.position <= highlightTop ? standing.buchholz?.toFixed(1) : '-'}
-                        </td>
-                        <td className="berger-cell">
-                          {standing.position <= highlightTop ? standing.berger?.toFixed(1) : '-'}
-                        </td>
-                      </>
-                  )}
-                </tr>
-            );
-          })}
-          </tbody>
-        </table>
-      </div>
+                  {flexRender(header.column.columnDef.header, header.getContext())}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map(row => (
+            <tr
+              key={row.id}
+              className={getRowClass(row.original.position)}
+            >
+              {row.getVisibleCells().map(cell => (
+                <td 
+                  key={cell.id} 
+                  className={`${cell.column.id}-cell`}
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
