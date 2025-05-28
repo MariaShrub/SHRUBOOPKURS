@@ -3,9 +3,7 @@ import React from 'react';
 import {
   useReactTable,
   getCoreRowModel,
-  ColumnDef,
   flexRender,
-  CellContext,
 } from '@tanstack/react-table';
 
 interface StandingsTableProps {
@@ -15,20 +13,14 @@ interface StandingsTableProps {
   showTiebreakers?: boolean;
 }
 
-interface EnrichedStanding extends Standing {
-  participant?: Participant;
-  fullName: string;
-  isEmpty: boolean;
-}
-
 const StandingsTable = ({
   standings,
   participants,
   highlightTop = 3,
   showTiebreakers = true
 }: StandingsTableProps) => {
-  // Обогащаем данные участников для таблицы
-  const enrichedStandings: EnrichedStanding[] = standings.map(standing => {
+  // Подготовка данных
+  const data = standings.map(standing => {
     const participant = participants.find(p => p.id === standing.participantId);
     return {
       ...standing,
@@ -36,16 +28,16 @@ const StandingsTable = ({
       fullName: participant ? `${participant.firstName} ${participant.lastName}` : '',
       isEmpty: participant?.isEmpty || false
     };
-  }).filter(standing => standing.participant);
+  }).filter(row => row.participant);
 
-  // Явно типизированные колонки
-  const columns: ColumnDef<EnrichedStanding>[] = [
+  // Определение колонок
+  const columns = [
     {
       accessorKey: 'position',
       header: '#',
-      cell: (info: CellContext<EnrichedStanding, number>) => (
+      cell: (props: any) => (
         <span className="position-badge">
-          {info.getValue()}
+          {props.row.original.position}
         </span>
       ),
       size: 50,
@@ -53,10 +45,10 @@ const StandingsTable = ({
     {
       accessorKey: 'fullName',
       header: 'Участник',
-      cell: (info: CellContext<EnrichedStanding, string>) => (
+      cell: (props: any) => (
         <>
-          {info.getValue()}
-          {info.row.original.isEmpty && (
+          {props.row.original.fullName}
+          {props.row.original.isEmpty && (
             <span className="empty-badge">[Пустой]</span>
           )}
         </>
@@ -66,9 +58,7 @@ const StandingsTable = ({
     {
       accessorKey: 'points',
       header: 'Очки',
-      cell: (info: CellContext<EnrichedStanding, number>) => (
-        info.getValue().toFixed(1)
-      ),
+      cell: (props: any) => props.row.original.points.toFixed(1),
       size: 80,
     },
     {
@@ -90,17 +80,15 @@ const StandingsTable = ({
       {
         accessorKey: 'participant.rating',
         header: 'Рейтинг',
-        cell: (info: CellContext<EnrichedStanding, number | undefined>) => (
-          info.getValue() || '-'
-        ),
+        cell: (props: any) => props.row.original.participant?.rating || '-',
         size: 80,
       },
       {
         accessorKey: 'buchholz',
         header: 'Бухгольц',
-        cell: (info: CellContext<EnrichedStanding, number | undefined>) => (
-          info.row.original.position <= highlightTop 
-            ? info.getValue()?.toFixed(1) 
+        cell: (props: any) => (
+          props.row.original.position <= highlightTop 
+            ? props.row.original.buchholz?.toFixed(1) 
             : '-'
         ),
         size: 80,
@@ -108,9 +96,9 @@ const StandingsTable = ({
       {
         accessorKey: 'berger',
         header: 'Бергер',
-        cell: (info: CellContext<EnrichedStanding, number | undefined>) => (
-          info.row.original.position <= highlightTop 
-            ? info.getValue()?.toFixed(1) 
+        cell: (props: any) => (
+          props.row.original.position <= highlightTop 
+            ? props.row.original.berger?.toFixed(1) 
             : '-'
         ),
         size: 80,
@@ -119,7 +107,7 @@ const StandingsTable = ({
   ];
 
   const table = useReactTable({
-    data: enrichedStandings,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
